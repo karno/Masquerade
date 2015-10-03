@@ -30,7 +30,7 @@ def switch_profile(key: str):
             description=prof['description'])
 
     if 'auto_intro' in prof and prof['auto_intro'] == True and \
-        'intro' in prof and prof['intro'] != None:
+        'intro' in prof and prof['intro'] is not None:
             post_intro(key)
 
     print('successfully changed to ' + prof['name'] + '.')

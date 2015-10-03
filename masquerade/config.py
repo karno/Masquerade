@@ -20,7 +20,7 @@ config = {
         # or
         # (regex) => {'key': key, 'intro': True}
         "^prof(ile)1$": "prof1",
-        "^prof(ile)?2$": {"key": "prof2", "intro": True},
+        "^prof(ile)?2$": {"key": "prof2", "intro": True, "delete": True},
     },
     "global_trigger": [
         # use named-group (?P<name>...)
@@ -28,6 +28,7 @@ config = {
         "^switch to (?P<trigger_key>.+)$",
         "^switch to (?P<alt_key>.+)$",
     ],
+    "delete_on_hit_global_trigger": True,
     "profiles": [
         # {
         #    "key": "",

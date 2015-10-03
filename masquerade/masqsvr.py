@@ -48,7 +48,12 @@ def server_process():
                                     switch_profile_async(keyOrObject)
                                 else:
                                     curprofkey = keyOrObject['key']
-                                    switch_profile_async(keyOrObject['key'], keyOrObject['intro'])
+                                    if 'intro' in keyOrObject and keyOrObject['intro'] is not None:
+                                        switch_profile_async(keyOrObject['key'], keyOrObject['intro'])
+                                    else:
+                                        switch_profile_async(keyOrObject['key'])
+                                    if 'delete' in keyOrObject:
+                                        delete_tweet(api, int(status['id_str']))
                                 fired = True
                                 break
                         if fired:
@@ -71,6 +76,8 @@ def server_process():
                                         # fired!
                                         curprofkey = prof['key']
                                         switch_profile_async(prof['key'])
+                                        if config['delete_on_hit_global_trigger']:
+                                            delete_tweet(api, int(status['id_str']))
                                         fired = True
                                         break
                             if fired:
@@ -119,6 +126,10 @@ def print_safely(text: str):
         print(text)
     except (UnicodeEncodeError, UnicodeDecodeError):
         print('contains unicode error')
+
+def delete_tweet(api: Twitter, tweet_id: int):
+    print("deleting hit status...")
+    api.statuses.destroy(_id=tweet_id, _method='POST')
 
 def get_current_prof_key(api: Twitter):
     """ get current profile, or default """
